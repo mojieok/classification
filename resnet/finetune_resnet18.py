@@ -155,6 +155,14 @@ for epoch in range(start_epoch + 1, MAX_EPOCH):
             #print("epoch:{} conv1.weights[0, 0, ...] :\n {}".format(epoch, resnet18_ft.conv1.weight[0, 0, ...]))
 
     scheduler.step()  # 更新学习率
+ 
+    #保存模型权重
+    checkpoint = {"model_state_dict": resnet18_ft.state_dict(),
+                  "optimizer_state_dict": optimizer.state_dict(),
+                  "epoch": epoch}
+    PATH = f'./checkpoint_{epoch}_epoch.pkl'
+    torch.save(checkpoint,PATH)
+    
     # validate the model
     if (epoch+1) % val_interval == 0:
 
